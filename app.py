@@ -115,13 +115,15 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        # Loading the model and tokenizer for bart-large-cnn
-        bart_model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn").to(device)
-        bart_tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
-        input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt').to(device)
-        summary_ids = bart_model.generate(input_tokenized,early_stopping = True)
-        output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
-        st.write('Summary')
+        tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
+        model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn').to(device)
+        # Encoding the inputs and passing them to model.generate()
+        inputs = tokenizer.batch_encode_plus(text_input4, return_tensors='pt')  # , max_length=124, padding="max_length", truncation=True
+        summary_ids = model.generate(inputs['input_ids'], early_stopping=True)
+        # Decoding and printing the summary
+        m4_output = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        st.write (m4_output)
+        st.write("The number of words in the summarized text are:", len(m4_output.split()))
       
       
 if __name__ == '__main__':
