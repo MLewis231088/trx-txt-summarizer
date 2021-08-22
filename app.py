@@ -19,6 +19,7 @@ from sumy.parsers.plaintext import PlaintextParser
 
 import gensim
 from gensim.summarization import summarize
+import transformers
 from transformers import T5Tokenizer, T5Config, T5ForConditionalGeneration
 from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 
