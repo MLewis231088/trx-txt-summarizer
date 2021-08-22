@@ -19,6 +19,8 @@ from sumy.parsers.plaintext import PlaintextParser
 
 import gensim
 from gensim.summarization import summarize
+import torch
+device = torch.device('cpu')
 import transformers
 from transformers import T5Tokenizer, T5Config, T5ForConditionalGeneration
 from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
@@ -91,7 +93,7 @@ def main():
         # Concatenating the word "summarize:" to raw text
         text = "summarize:" + text_input3
         # encoding the input text
-        input_ids=tokenizer.encode(text, return_tensors='pt', max_length=1024)
+        input_ids=tokenizer.encode(text, return_tensors='pt', max_length=1024).to(device)
         # Generating summary ids
         summary_ids = my_model.generate(input_ids)
         # for ids in summary_ids:
