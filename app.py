@@ -115,9 +115,13 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        smr_bart = pipeline(task="summarization", model="facebook/bart-large-cnn")
-        smbart = smr_bart(text_input4, max_length=1024)
-        st.write(smbart[0])
+        # Loading the model and tokenizer for bart-large-cnn
+        bart_model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn").to(device)
+        bart_tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
+        input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt').to(device)
+        summary_ids = bart_model.generate(input_tokenized,early_stopping = True)
+        output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
+        st.write('Summary')
       
       
 if __name__ == '__main__':
