@@ -1,0 +1,10 @@
+streamlit == 0.83.0
+tensorflow
+text-preprocessing == 0.1.0
+sumy == 0.8.1
+transformers == 4.9.2
+sentencepiece == 0.1.96
+pandas == 1.2.4
+numpy == 1.20.1
+spacy == 3.1.1
+gensim == 3.8.3
