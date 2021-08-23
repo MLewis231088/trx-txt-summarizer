@@ -116,7 +116,7 @@ def main():
       if submit_button4:
         from transformers import pipeline
         from transformers import BartForConditionalGeneration, BartTokenizer
-        model = BartForConditionalGeneration.from_pretrained("facebook/bart-large", force_bos_token_to_be_generated=True)
+        model = BartForConditionalGeneration.from_pretrained("facebook/bart-large")
         tok = BartTokenizer.from_pretrained("facebook/bart-large")
         batch = tok(text_input4, return_tensors='pt')
         generated_ids = model.generate(batch['input_ids'])
