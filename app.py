@@ -115,12 +115,19 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        from transformers.models.bert.modeling_bert import BartModel
-        from transformers.tokenization_roberta import RobertaTokenizer
+        from transformers import AutoModel, AutoTokenizer 
+        model_name = "facebook/bart-base" 
 
-        tokens = RobertaTokenizer.from_pretrained('roberta-base').encode(text_input4, return_tensors="pt")
-        bart = BartModel.from_pretrained('/kaggle/input/bart-base-huggingface/')
-        output = bart(tokens)
+        # Download pytorch model
+        model = AutoModel.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+        # Transform input tokens 
+        inputs = tokenizer(text_input4, return_tensors="pt")
+
+        # Model apply
+        output = model(**inputs)
+
 #         tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 #         model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
 #         # Encoding the inputs and passing them to model.generate()
