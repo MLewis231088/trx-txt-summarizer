@@ -115,19 +115,12 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
-        BART_PATH = 'bart-large'
-        bart_model = BartForConditionalGeneration.from_pretrained(BART_PATH, output_past=True)
-        bart_tokenizer = BartTokenizer.from_pretrained(BART_PATH, output_past=True)
-        input_tokenized = bart_tokenizer.encode(input_text, return_tensors='pt').to(device)
-        summary_ids = bart_model.generate(input_tokenized,
-                                      num_beams=int(num_beams),
-                                      no_repeat_ngram_size=3,
-                                      length_penalty=2.0,
-                                      min_length=30,
-                                      max_length=int(num_words),
-                                      early_stopping=True)
-        output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
+        from transformers.modeling_bart import BartModel
+        from transformers.tokenization_roberta import RobertaTokenizer
+
+        tokens = RobertaTokenizer.from_pretrained('roberta-base').encode(text_input4, return_tensors="pt")
+        bart = BartModel.from_pretrained('/kaggle/input/bart-base-huggingface/')
+        output = bart(tokens)
 #         tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 #         model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
 #         # Encoding the inputs and passing them to model.generate()
