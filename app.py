@@ -23,7 +23,6 @@ import torch
 device = torch.device('cpu')
 import transformers
 from transformers import T5Tokenizer, T5Config, T5ForConditionalGeneration
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 # from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"centered"}
@@ -116,15 +115,19 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        tokenizer = AutoTokenizer.from_pretrained("facebook/bart-large-xsum")
-        model = AutoModelForSeq2SeqLM.from_pretrained("facebook/bart-large-xsum")
+        from transformers import BartForConditionalGeneration, BartTokenizer
+        model = BartForConditionalGeneration.from_pretrained("facebook/bart-large", force_bos_token_to_be_generated=True)
+        tok = BartTokenizer.from_pretrained("facebook/bart-large")
+        batch = tok(text_input4, return_tensors='pt')
+        generated_ids = model.generate(batch['input_ids'])
+        m4_output = tok.batch_decode(generated_ids, skip_special_tokens=True)
 #         tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 #         model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
-        # Encoding the inputs and passing them to model.generate()
-        inputs = tokenizer.batch_encode_plus(text_input4, return_tensors='pt')['input_ids'].to(device)         # , max_length=124, padding="max_length", truncation=True
-        summary_ids = model.generate(inputs, early_stopping=True)
-        # Decoding and printing the summary
-        m4_output = tokenizer.decode(summary_ids.squeeze(), skip_special_tokens=True)
+#         # Encoding the inputs and passing them to model.generate()
+#         inputs = tokenizer.batch_encode_plus(text_input4, return_tensors='pt')['input_ids'].to(device)         # , max_length=124, padding="max_length", truncation=True
+#         summary_ids = model.generate(inputs, early_stopping=True)
+#         # Decoding and printing the summary
+#         m4_output = tokenizer.decode(summary_ids.squeeze(), skip_special_tokens=True)
         st.write (m4_output)
         st.write("The number of words in the summarized text are:", len(m4_output.split()))
       
