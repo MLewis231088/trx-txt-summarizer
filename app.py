@@ -23,7 +23,6 @@ import torch
 device = torch.device('cpu')
 import transformers
 from transformers import T5Tokenizer, T5Config, T5ForConditionalGeneration
-# from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"centered"}
 st.set_page_config(**PAGE_CONFIG)
@@ -48,7 +47,7 @@ def main():
   task = st.sidebar.selectbox("Please select your preferred task",activities)
 
   if task == 'Build Models for Text Summarization':
-    model = st.selectbox('Select the model', ('Model 1', 'Model 2', 'Model 3','Model 4'))
+    model = st.selectbox('Select the model', ('Model 1', 'Model 2', 'Model 3'))
     
     # LSA (Latent Semantic Analysis) Model
     if model == "Model 1":
@@ -106,37 +105,6 @@ def main():
         st.write("The number of words in the summarized text are:", len(m3_output.split()))
 
 
-    # Model 4 - BART Transformers (Abstractive Text Summarization)
-    elif model == "Model 4":
-      # sen_length_4 = st.slider('Select the word count of the summary to be generated', 0, 250, 10)
-      with st.form(key='my_form4'):
-        text_input4 = st.text_area("Please enter the text to summarize:")
-        submit_button4= st.form_submit_button(label='Summarize the text')
-        
-      if submit_button4:
-        from transformers import pipeline
-        from transformers import AutoModel, AutoTokenizer 
-        model_name = "facebook/bart-base" 
-
-        # Download pytorch model
-        model = AutoModel.from_pretrained(model_name)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-        # Transform input tokens 
-        inputs = tokenizer(text_input4, return_tensors="pt")
-
-        # Model apply
-        output = model(**inputs)
-
-#         tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
-#         model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
-#         # Encoding the inputs and passing them to model.generate()
-#         inputs = tokenizer.batch_encode_plus(text_input4, return_tensors='pt')['input_ids'].to(device)         # , max_length=124, padding="max_length", truncation=True
-#         summary_ids = model.generate(inputs, early_stopping=True)
-#         # Decoding and printing the summary
-#         m4_output = tokenizer.decode(summary_ids.squeeze(), skip_special_tokens=True)
-        st.write (output)
-        st.write("The number of words in the summarized text are:", len(m4_output.split()))
       
       
 if __name__ == '__main__':
