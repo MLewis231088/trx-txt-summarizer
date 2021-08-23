@@ -115,12 +115,19 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        from transformers import BartForConditionalGeneration, BartTokenizer
-        model = BartForConditionalGeneration.from_pretrained("facebook/bart-large")
-        tok = BartTokenizer.from_pretrained("facebook/bart-large")
-        batch = tok(text_input4, return_tensors='pt')
-        generated_ids = model.generate(batch['input_ids'])
-        m4_output = tok.batch_decode(generated_ids, skip_special_tokens=True)
+        from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
+        BART_PATH = 'bart-large'
+        bart_model = BartForConditionalGeneration.from_pretrained(BART_PATH, output_past=True)
+        bart_tokenizer = BartTokenizer.from_pretrained(BART_PATH, output_past=True)
+        input_tokenized = bart_tokenizer.encode(input_text, return_tensors='pt').to(device)
+        summary_ids = bart_model.generate(input_tokenized,
+                                      num_beams=int(num_beams),
+                                      no_repeat_ngram_size=3,
+                                      length_penalty=2.0,
+                                      min_length=30,
+                                      max_length=int(num_words),
+                                      early_stopping=True)
+        output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
 #         tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 #         model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
 #         # Encoding the inputs and passing them to model.generate()
@@ -128,7 +135,7 @@ def main():
 #         summary_ids = model.generate(inputs, early_stopping=True)
 #         # Decoding and printing the summary
 #         m4_output = tokenizer.decode(summary_ids.squeeze(), skip_special_tokens=True)
-        st.write (m4_output)
+        st.write (output)
         st.write("The number of words in the summarized text are:", len(m4_output.split()))
       
       
