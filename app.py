@@ -115,7 +115,7 @@ def main():
         
       if submit_button4:
         from transformers import pipeline
-        from transformers.modeling_bart import BartModel
+        from transformers.models.bert.modeling_bert import BartModel
         from transformers.tokenization_roberta import RobertaTokenizer
 
         tokens = RobertaTokenizer.from_pretrained('roberta-base').encode(text_input4, return_tensors="pt")
