@@ -157,7 +157,9 @@ def main():
                                                   length_penalty=_length_penalty,
                                                   min_length=_min_length,
                                                   max_length=_max_length,
-                                                  early_stopping=_early_stopping)
+                                                  early_stopping=_early_stopping,
+                                                  truncation=True
+                                                 )
 
                 m4_output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False)
                           for g in summary_ids]
