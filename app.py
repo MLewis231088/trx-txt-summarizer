@@ -150,15 +150,14 @@ def main():
             if submit_button4:
                 bart_model = BartForConditionalGeneration.from_pretrained("facebook/bart-base")
                 bart_tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
-                input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt').to(device)
+                input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt', truncation=True).to(device)
                 summary_ids = bart_model.generate(input_tokenized,
                                                   num_beams=_num_beams,
                                                   no_repeat_ngram_size=_no_repeat_ngram_size,
                                                   length_penalty=_length_penalty,
                                                   min_length=_min_length,
                                                   max_length=_max_length,
-                                                  early_stopping=_early_stopping,
-                                                  truncation=True
+                                                  early_stopping=_early_stopping
                                                  )
 
                 m4_output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False)
