@@ -8,6 +8,9 @@ import random
 random.seed(0)
 import warnings
 
+import logging
+logging.basicConfig(level=logging.ERROR)
+
 warnings.filterwarnings('ignore')
 
 import spacy
