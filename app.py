@@ -55,7 +55,7 @@ def main():
     task = st.sidebar.selectbox("Please select your preferred task", activities)
 
     if task == 'Models for Text Summarization':
-        model = st.selectbox('Select the model', ('Model 1', 'Model 2', 'Model 3', 'Model 4'))
+        model = st.selectbox('Select the model', ('Model 1', 'Model 2', 'Model 3'))
 
         # LSA (Latent Semantic Analysis) Model
         if model == "Model 1":
@@ -133,40 +133,40 @@ def main():
                 st.write("The number of words in the summarized text are:", len(m3_output.split()))
 
 
-        # Model 4 - BART Transformers (Abstractive Text Summarization)
-        elif model == "Model 4":
-            _num_beams = 4
-            _no_repeat_ngram_size = 3
-            _length_penalty = 1
-            _min_length = 12
-            _max_length = 128
-            _early_stopping = True
+#         # Model 4 - BART Transformers (Abstractive Text Summarization)
+#         elif model == "Model 4":
+#             _num_beams = 4
+#             _no_repeat_ngram_size = 3
+#             _length_penalty = 1
+#             _min_length = 12
+#             _max_length = 128
+#             _early_stopping = True
 
-            col1, col2 = st.beta_columns(2)
-            _min_length = col1.number_input("min_length", value=_min_length)
-            _max_length = col2.number_input("max_length", value=_max_length)
+#             col1, col2 = st.beta_columns(2)
+#             _min_length = col1.number_input("min_length", value=_min_length)
+#             _max_length = col2.number_input("max_length", value=_max_length)
 
-            with st.form(key='my_form4'):
-                text_input4 = st.text_area("Please enter the text to summarize:")
-                submit_button4 = st.form_submit_button(label='Summarize the text')
+#             with st.form(key='my_form4'):
+#                 text_input4 = st.text_area("Please enter the text to summarize:")
+#                 submit_button4 = st.form_submit_button(label='Summarize the text')
 
-            if submit_button4:
-                bart_model = BartForConditionalGeneration.from_pretrained("facebook/bart-base")
-                bart_tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
-                input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt', truncation=True).to(device)
-                summary_ids = bart_model.generate(input_tokenized,
-                                                  num_beams=_num_beams,
-                                                  no_repeat_ngram_size=_no_repeat_ngram_size,
-                                                  length_penalty=_length_penalty,
-                                                  min_length=_min_length,
-                                                  max_length=_max_length,
-                                                  early_stopping=_early_stopping
-                                                 )
+#             if submit_button4:
+#                 bart_model = BartForConditionalGeneration.from_pretrained("facebook/bart-base")
+#                 bart_tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
+#                 input_tokenized = bart_tokenizer.encode(text_input4, return_tensors='pt', truncation=True).to(device)
+#                 summary_ids = bart_model.generate(input_tokenized,
+#                                                   num_beams=_num_beams,
+#                                                   no_repeat_ngram_size=_no_repeat_ngram_size,
+#                                                   length_penalty=_length_penalty,
+#                                                   min_length=_min_length,
+#                                                   max_length=_max_length,
+#                                                   early_stopping=_early_stopping
+#                                                  )
 
-                m4_output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-                          for g in summary_ids]
-                st.write('Summary')
-                st.success(m4_output[0])
+#                 m4_output = [bart_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+#                           for g in summary_ids]
+#                 st.write('Summary')
+#                 st.success(m4_output[0])
 
 
 if __name__ == '__main__':
