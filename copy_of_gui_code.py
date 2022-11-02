@@ -10,9 +10,6 @@ Original file is located at
 #%%writefile app.py
 
 
-from google.colab import drive
-drive.mount('/content/drive')
-
 import os
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1" 
 
