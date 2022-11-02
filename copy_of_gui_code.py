@@ -9,15 +9,6 @@ Original file is located at
 
 #%%writefile app.py
 
-install ipykernel #pip install --upgrade ipykernel
-install pydeck #!pip install --upgrade pydeck
-install --upgrade ipython #!pip install ipython
-install transformers nlp datasets #imbalanced-learn
-install streamlit
-install streamlit-pandas-profiling
-install --upgrade simpletransformers
-
-install google.colab
 
 from google.colab import drive
 drive.mount('/content/drive')
