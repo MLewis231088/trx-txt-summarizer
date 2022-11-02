@@ -8,7 +8,17 @@ Original file is located at
 """
 
 #%%writefile app.py
+pip install pip --upgrade
 
+pip install ipykernel #pip install --upgrade ipykernel
+pip install pydeck #!pip install --upgrade pydeck
+pip install --upgrade ipython #!pip install ipython
+pip install transformers nlp datasets #imbalanced-learn
+pip install streamlit
+pip install streamlit-pandas-profiling
+pip install --upgrade simpletransformers
+
+pip install google.colab
 
 import os
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1" 
