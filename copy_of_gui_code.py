@@ -8,7 +8,7 @@ Original file is located at
 """
 
 #%%writefile app.py
-install google.colab
+
 
 import os
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1" 
